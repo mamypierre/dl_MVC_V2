@@ -14,7 +14,9 @@ if (isset($_GET['idSousCategory']) && is_numeric($_GET['idSousCategory']) && $_G
     deconnection();
 } elseif (isset($_GET['inscription']) && $_GET['inscription'] == 1) {
     inscription();
-} elseif (isset($_POST['nom']) && isset ($_POST['prenom']) && isset ($_POST['pseudo']) && isset ($_POST['email']) && isset ($_POST['motdepass1']) && isset ($_POST['motdepass2'])) {
+}elseif (isset($_GET['Administrateur'])) {
+    administrateur();
+}  elseif (isset($_POST['nom']) && isset ($_POST['prenom']) && isset ($_POST['pseudo']) && isset ($_POST['email']) && isset ($_POST['motdepass1']) && isset ($_POST['motdepass2'])) {
     inscription($_POST['nom'], $_POST['prenom'], $_POST['pseudo'], $_POST['email'], $_POST['motdepass1'], $_POST['motdepass2'])  ;
 } else {
     listeForum();

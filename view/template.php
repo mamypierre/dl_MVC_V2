@@ -28,6 +28,7 @@
                 <div class="boutonvan1" > <a href="index.php?forum" >Forum</a> </div>
                 <div class="boutonvan1" > <a href="index.php?Evenement" >Evenement</a></div>
                 <div class="boutonvan1" > <a href="index.php?News" >News</a></div>
+                <div class="boutonvan1" > <a href="index.php?Administrateur" >Administrateur</a></div>
             </div>
 
 

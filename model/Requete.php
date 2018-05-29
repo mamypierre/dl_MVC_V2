@@ -293,5 +293,54 @@ class Requete {
         }
         return $result;
     }
-
+    public static function delete( $from, $where1,$where2) {
+        $bool = FALSE;
+        $from = trim($from);
+        if (self::isTable($from)){
+        $bdd="DELETE FROM ".$from." WHERE ".$where1." = '".$where2."'";
+            if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+        }else {
+            self::$erreur = "Table inexistante.";
+        }
+        return $bool;
+    }
+        /**
+     * 
+     * @param type $from quel table modifié
+     * @param type $SET1 quel colonne modifié
+     * @param type $SET2 valeur modifié
+     * @param type $where1
+     * @return type  $bool si c'est fait
+     */
+    public static function update($from,$SET1,$SET2,$where){
+        $bool = FALSE;
+        $from = trim($from);
+        if (self::isTable($from)){
+        $bdd="UPDATE ".$from." SET ".$SET1." = '".$SET2."' WHERE ".$where;
+            if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+        }else {
+            self::$erreur = "Table inexistante.";
+        }
+        return $bool;
+    }
+        /**
+     * 
+     * @param type $pseudo personna a accepter ou refuser
+     * @param type $validation "Validé"ou "Non Validé"
+     * @return type  $bool si c'est fait
+     * a faire inner join nom prenom
+     */
+    public static function approveWaiting($nom,$prenom,$validation){
+        $bool = FALSE;
+        echo "ok";
+        $bdd="UPDATE waiting_list INNER JOIN USER ON waiting_list.id_waiting_list = USER.id_waiting_list INNER JOIN information ON user.id_information = information.id_information SET waiting_list.approval = '".$validation."' WHERE information.user_name= '".$nom."' AND information.user_forename = '".$prenom."'";
+        if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+         return $bool;
+    }
 }

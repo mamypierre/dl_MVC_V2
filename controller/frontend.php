@@ -86,10 +86,15 @@ function inscription($nom = "", $prenom = "", $pseudo = "", $email = "", $motPas
                 require ('view/inscriptionView.php');
             }
         } else {
-            $error = "pas de caracter speciaux";
+            $error = "pas de caractere speciaux";
             require ('view/inscriptionView.php');
         }
     } else {
         require ('view/inscriptionView.php');
     }
 }
+    function administrateur(){
+        require ('view/administrateurView.php');
+    }
+
+
