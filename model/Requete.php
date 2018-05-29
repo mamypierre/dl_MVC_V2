@@ -293,5 +293,16 @@ class Requete {
         }
         return $result;
     }
+    public static function tablenomprenompseudo($saisie) {
+        $sql = "SELECT information.last_name, information.first_name, user.pseudo,CONCAT(information.first_name,' ',information.last_name,' ',user.pseudo) AS ConcatenatedString FROM 	information \n"
 
+    . "                INNER JOIN user ON information.id_information = user.id_information\n"
+
+    . "                WHERE\n"
+
+    . "                information.first_name LIKE '".$saisie."%' OR information.last_name LIKE '".$saisie."%' OR user.pseudo LIKE '".$saisie."%'";
+        
+        return self::getResults($sql);
+    }
+   
 }

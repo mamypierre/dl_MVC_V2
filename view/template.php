@@ -4,6 +4,11 @@
         <meta charset="utf-8" />
         <title><?= $title ?></title>
         <link href="public/css/style.css" rel="stylesheet" /> 
+        <link rel="stylesheet" type="text/css" href="public/jqueasyui/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="public/jqueasyui/themes/icon.css">
+        <link rel="stylesheet" type="text/css" href="public/jqueasyui/demo/demo.css">
+        <script type="text/javascript" src="public/jqueasyui/jquery.min.js"></script>
+        <script type="text/javascript" src="public/jqueasyui/jquery.easyui.min.js"></script>
     </head>
 
     <body>
@@ -41,7 +46,11 @@
                 <div class="recher" >
                     <form class="form">
                         <div class="recherche">
-                            <input type="text" name="keyword" placeholder="Recherche"/>                           
+                                        <br>
+                            <input class="easyui-combobox" id="users" name="user" data-options="valueField:'pseudo',textField:'ConcatenatedString', url:'view/listeutilisateurs.php',onSelect:function(record){
+                                   alert(record.pseudo)
+                                   },onChange:function(newValue,oldValue){ $('#utilisateurs').combobox('reload','view/listeutilisateurs.php?saisie='+newValue);}">
+                            <br>     
                         </div>
                     </form>
                 </div>             

@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript">
+				function message() {
+					var chaine="ok";
+					//alert(chaine);
+					
+					$.ajax({
+					  url: "test_content.html"
+					})
+					  .done(function( html ) {
+						$("#div_bonjour").html( html );
+					  });
+					
+					//Manipulation du DOM (Document Object Model)
+					/*document.getElementById("div_bonjour").innerHTML="Bonjour Jérôme";
+					document.getElementById("div_bonjour").style.backgroundColor="#FF0000";*/
+				}
+		</script>
+	</head>
+	<body>
+		<div id="div_bonjour">Bonjour</div>
+		<button onclick="message()">Cliquez moi</button>
+	</body>
+</html>
