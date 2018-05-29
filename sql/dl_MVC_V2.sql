@@ -363,43 +363,50 @@ ALTER TABLE `waiting_list`
 -- Contraintes pour la table `event`
 --
 ALTER TABLE `event`
-  ADD CONSTRAINT `evenement_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `evenement_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `forum_message`
 --
 ALTER TABLE `forum_message`
   ADD CONSTRAINT `message_forum_ibfk_1` FOREIGN KEY (`id_subject`) REFERENCES `subject` (`id_subject`),
-  ADD CONSTRAINT `message_forum_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `message_forum_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `mailbox`
 --
 ALTER TABLE `mailbox`
-  ADD CONSTRAINT `messagerie_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `messagerie_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `subject`
 --
 ALTER TABLE `subject`
   ADD CONSTRAINT `sujet_ibfk_1` FOREIGN KEY (`id_sub_category`) REFERENCES `sub_category` (`id_sub_category`),
-  ADD CONSTRAINT `sujet_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `sujet_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `sub_category`
 --
 ALTER TABLE `sub_category`
-  ADD CONSTRAINT `sous_categorie_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`);
+  ADD CONSTRAINT `sous_categorie_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`)
+  ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `utilisateurs_ibfk_1` FOREIGN KEY (`id_user_type`) REFERENCES `user_type` (`id_user_type`),
-  ADD CONSTRAINT `utilisateurs_ibfk_2` FOREIGN KEY (`id_information`) REFERENCES `information` (`id_information`);
+  ADD CONSTRAINT `utilisateurs_ibfk_2` FOREIGN KEY (`id_information`) REFERENCES `information` (`id_information`)
+  ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `waiting_list`
 --
 ALTER TABLE `waiting_list`
-  ADD CONSTRAINT `waiting_list_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `waiting_list_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  ON DELETE CASCADE;
