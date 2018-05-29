@@ -6,31 +6,21 @@ require_once('model/Inscription.php');
 
 function listeForum() {
     $listCategorieSoucategrie = Requete::listCategorieSoucategrie();
-    if ($listCategorieSoucategrie) {
-        require ('view/listeCategoryView.php');
-    } else {
-        require ('view/pageEmpty.php');
-    }
+    require ('view/listeCategoryView.php');
 }
 
 function listeSujet($idSousCategory) {
-    $listsujets = Requete::getResultSelect("sujet", "id_sujet ,nom_sujet ", "id_sous_catégorie= {$idSousCategory}");
-    $nomCatego = Requete::getResultSelect("sous_categorie", "nom_sous_catégorie", "id_sous_catégorie = {$idSousCategory}");
-    if ($listsujets && $nomCatego) {
-        require ('view/listeSujetsView.php');
-    } else {
-        require ('view/aceuille.php');
-    }
+    $listsujets = Requete::getResultSelect("subject", "id_subject ,subject_name ", "id_sub_category= {$idSousCategory}");
+    $nomCatego = Requete::getResultSelect("sub_category", "sub_category_name", "id_sub_category = {$idSousCategory}");
+
+    require ('view/listeSujetsView.php');
 }
 
 function listeMessages($idSujet) {
-    $listeMessages = Requete::getResultSelect("message_forum", "contenue", "id_sujet = {$idSujet}");
-    $nomSujet = Requete::getResultSelect("sujet", "nom_sujet", "id_sujet = {$idSujet}");
-    if ($listeMessages && $nomSujet) {
-        require ('view/listeMessagesView.php');
-    } else {
-        require ('view/aceuille.php');
-    }
+    $listeMessages = Requete::getResultSelect("forum_message", "content", "id_subject = {$idSujet}");
+    $nomSujet = Requete::getResultSelect("subject", "subject_name", "id_subject = {$idSujet}");
+
+    require ('view/listeMessagesView.php');
 }
 
 function connection($motdepass = "", $pseudo = "") {
