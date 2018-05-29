@@ -343,4 +343,18 @@ class Requete {
                 }
          return $bool;
     }
+    
+       public static function deleteUser( $from, $where1,$where2) {
+        $bool = FALSE;
+        $from = trim($from);
+        if (self::isTable($from)){
+        $bdd="DELETE FROM user INNER JOIN user on user.id_user = waiting_list.id_user WHERE pseudo = '".$where2."'";
+            if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+        }else {
+            self::$erreur = "Table inexistante.";
+        }
+        return $bool;
+    }
 }

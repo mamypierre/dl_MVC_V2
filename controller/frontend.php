@@ -94,6 +94,16 @@ function inscription($nom = "", $prenom = "", $pseudo = "", $email = "", $motPas
     }
 }
     function administrateur(){
+        
+
+    if (isset($_POST['user_nameDel'])) {
+            if(Requete::delete("user","pseudo",$_POST['user_nameDel'])){
+                echo "Utilisateur supprimer";
+
+            }else{
+                echo "Effacement echoué"; 
+            }
+    }
         require ('view/administrateurView.php');
     }
 

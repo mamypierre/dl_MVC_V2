@@ -47,17 +47,6 @@ include_once('../DAOSingleton/Requete.php');
     </form>
     <br>
 
-<?php
-include_once('../DAOSingleton/Requete.php');
-
-    if (isset($_POST['user_nameDel'])) {
-            if(Requete::delete("user","pseudo",$_POST['user_name'])){
-                echo "Utilisateur supprimer";
-
-            }else{
-                echo "Effacement echoué"; 
-            }
-    } ?>
 </div>
 <div class="addNews">
     <b>Ajouter une actualité</b>
