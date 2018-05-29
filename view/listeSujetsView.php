@@ -1,19 +1,21 @@
 
 <?php $title = "liste des sujets"; ?>
 
-<?php ob_start(); ?>
+<?php ob_start();
+if ($listsujets && $nomCatego) { ?>
 
-<div class="titre"> 
-    <h2> <?= $nomCatego[0]['nom_sous_catégorie']; ?> </h2>
-</div>
+    <div class="titre"> 
+        <h2> <?= $nomCatego[0]['sub_category_name']; ?> </h2>
+    </div>
 
-<?php foreach ($listsujets as $sujet) { ?>
-    <div class="sujet">   
-        <a href="index.php?idSujet=<?= $sujet['id_sujet']; ?>"> 
-            <?= $sujet['nom_sujet']; ?>
-        </a> 
-    </div> 
-<?php } ?>
+    <?php foreach ($listsujets as $sujet) { ?>
+        <div class="sujet">   
+            <a href="index.php?idSujet=<?= $sujet['id_subject']; ?>"> 
+        <?= $sujet['subject_name']; ?>
+            </a> 
+        </div> 
+    <?php }
+} ?>
 
 <?php if (isset($_SESSION['pseudo'])) { ?>
 
