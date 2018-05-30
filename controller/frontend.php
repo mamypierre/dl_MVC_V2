@@ -130,12 +130,17 @@ function administrateur() {
             require ('view/inscriptionView.php');
         }
     }
-    if (isset($_POST['user_nameDel'])) {
-        if (Requete::deleteUser($_POST['user_nameDel'])) {
+ if (isset($_POST['user_nameDel'])) {
+        $query = "SELECT status from information inner join user on information.id_information = user.id_information where pseudo = ".$_POST['user_nameDel'];
+        if (Requete::getResults($query)!="DlAfpa"){  
+            if (Requete::deleteUser($_POST['user_nameDel'])) {
             echo "Utilisateur supprimer";
         } else {
             echo "Effacement echoué";
-        }
+        }} elseif (Requete::delete("user", "pseudo",$_POST['user_nameDel'])){    
+          echo "Utilisateur supprimer";
+        } else {
+        echo "Effacement echoué";}
     }
     require ('view/administrateurView.php');
 }
