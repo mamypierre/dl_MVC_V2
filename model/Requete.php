@@ -33,23 +33,7 @@ class Requete {
         ConnectionSingleton::close();
         return $res;
     }
-
-    /* private static function getResults1($query) {
-      $res = NULL;
-      $bdb = ConnectionSingleton::getInstance();
-      $reponse = $bdb->query($query);
-      if (isset($reponse) && $reponse != "") {
-
-      $reponse->setFetchMode(PDO::FETCH_ASSOC);
-      $res = $reponse->fetch();
-
-
-      $reponse = NULL;
-      }
-      ConnectionSingleton::close();
-      return $res;
-      } */
-
+   
     /**
      * permet de recupere des resultat d'une requete en forme de tableau
      * @param type $from est la table ou en veut chercher les donnes 'OBLIGATOIR'
@@ -61,14 +45,16 @@ class Requete {
         $result = NULL;
         $from = trim($from);
         if (isset($from) && $from != "" && self::isTable($from)) {//verifier si la table existe
-            if ($select) {
-
+            if ($select) {              
                 $select = self::isColonne($select, $from); // verifie si la selection existe
                 if ($select) {
-                    $query = "select " . $select . " from {$from}"; //constitution de la 2 em requete valide
+                    $query = "select " . $select . " from {$from}"; //constitution de la 2 em requete valide                    
                     if ($where) {
                         $condition = self::extraction($where, "="); // separation de colonne et valeur
-                        if ($condition) {
+                        if (count($condition) > 2) {                            
+                            $query .= " where {$where}";
+                            $result = self::getResults($query);
+                        } else {
                             $col = trim($condition[0]);
                             $val = trim($condition[1]);
                             $test = self::isColonne($col, $from);
@@ -289,7 +275,7 @@ class Requete {
                 . "FROM category INNER JOIN sub_category ON category.id_category = sub_category.id_category";
         $result = self::getResults($sql);
         if (!$result) {
-            $result = NULL;            
+            $result = NULL;
         }
         return $result;
     }

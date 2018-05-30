@@ -1,8 +1,10 @@
 
 <?php $title = "liste des sujets"; ?>
 
-<?php ob_start();
-if ($listsujets && $nomCatego) { ?>
+<?php
+ob_start();
+if ($listsujets && $nomCatego) {
+    ?>
 
     <div class="titre"> 
         <h2> <?= $nomCatego[0]['sub_category_name']; ?> </h2>
@@ -14,8 +16,10 @@ if ($listsujets && $nomCatego) { ?>
         <?= $sujet['subject_name']; ?>
             </a> 
         </div> 
-    <?php }
-} ?>
+    <?php
+    }
+}
+?>
 
 <?php if (isset($_SESSION['pseudo'])) { ?>
 
@@ -27,6 +31,8 @@ if ($listsujets && $nomCatego) { ?>
             <input type="submit" value="crée" />
         </form>
     </div>
+<?php } else { ?>
+    <p> Erreur aucun contenue!</p>
 <?php } ?>
 
 <?php $content = ob_get_clean(); ?>
