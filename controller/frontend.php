@@ -11,7 +11,7 @@ function listeForum() {
 }
 
 function listeSujet($idSousCategory) {
-    $listsujets = Requete::getResultSelect("subject", "id_subject ,subject_name ", "id_sub_category= {$idSousCategory}");
+    $listsujets = Requete::getResultSelect("subject", "id_subject ,subject_name, id_user ", "id_sub_category= {$idSousCategory}");
     $nomCatego = Requete::getResultSelect("sub_category", "sub_category_name", "id_sub_category = {$idSousCategory}");
 
     require ('view/listeSujetsView.php');
@@ -94,9 +94,14 @@ function creation_message($id_user, $content_message, $id_subject) {
 function creation_sujet_et_message($id_user, $content_message, $subject_name, $id_sub_category) {
     $creationMessEtSujet = new CreationSujetMessage($id_user, $content_message, "", $subject_name, $id_sub_category);
 
-    if ($creationMessEtSujet->creat_subject_and_messag()) {       
+    if ($creationMessEtSujet->creat_subject_and_messag()) {
         listeSujet($creationMessEtSujet->getIdsub());
     } else {
         print_r($creationMessEtSujet->getError());
     }
+}
+
+function edit($idsubjet) {
+    $nomSujet = Requete::getResultSelect("subject ", "subject_name ", "id_subject={$idsubjet}") ;
+    require ('view/modification_nom_sujet_view.php');
 }

@@ -14,7 +14,9 @@ if (isset($_GET['idSousCategory']) && is_numeric($_GET['idSousCategory']) && $_G
     deconnection();
 } elseif (isset($_GET['inscription']) && $_GET['inscription'] == 1) {
     inscription();
-} elseif (isset($_GET['idSuj']) && isset($_POST['message'])) {
+} elseif (isset($_GET['edit'])) {
+    edit($_GET['edit']) ;
+}elseif (isset($_GET['idSuj']) && isset($_POST['message'])) {
     creation_message($_SESSION['idUser'], $_POST['message'], $_GET['idSuj']);
 } elseif (isset($_GET['idSousCategoryCreat']) && isset($_POST['nomSujer']) && isset($_POST['message'])) {
     

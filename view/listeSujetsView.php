@@ -13,10 +13,16 @@ if ($listsujets && $nomCatego) {
     <?php foreach ($listsujets as $sujet) { ?>
         <div class="sujet">   
             <a href="index.php?idSujet=<?= $sujet['id_subject']; ?>"> 
-        <?= $sujet['subject_name']; ?>
-            </a> 
+                <?= $sujet['subject_name']; ?>
+            </a>           
         </div> 
-    <?php
+        <?php if (isset($_SESSION['idUser']) && $sujet['id_user'] == $_SESSION['idUser']) { ?>
+            <div> 
+                <a href="index.php?edit=<?= $sujet['id_subject']; ?>"> modifier  </a>
+                <a href="index.php?delete=<?= $sujet['id_subject']; ?>"> suprimer  </a> 
+            </div>
+            <?php
+        }
     }
 }
 ?>
