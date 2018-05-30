@@ -42,6 +42,7 @@ function connection($motdepass = "", $pseudo = "") {
 
             //creation de variable de session 
             $_SESSION['idUser'] = $connection->getIdUser();
+            $_SESSION['UserType'] = $connection->getUserType();
             $_SESSION['pseudo'] = $pseudo;
             $_SESSION['time'] = time();
             require ('view/aceuille.php');
