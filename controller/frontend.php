@@ -93,18 +93,48 @@ function inscription($nom = "", $prenom = "", $pseudo = "", $email = "", $motPas
         require ('view/inscriptionView.php');
     }
 }
-    function administrateur(){
-        
 
-    if (isset($_POST['user_nameDel'])) {
-            if(Requete::delete("user","pseudo",$_POST['user_nameDel'])){
-                echo "Utilisateur supprimer";
+function administrateur() {
+    if (isset($_POST['news'])) {
+        $test = $_POST['news'];
+        if (Requete::inser("news", "description", "'{$test}'")) {
+            echo "News ajouté";
+        } else {
+            echo "Ajout news echoué";
+        }
+    }
 
-            }else{
-                echo "Effacement echoué"; 
+    if (isset($_POST['pseudo']) && isset($_POST['password1']) && isset($_POST['email']) && isset($_POST['first_name']) && isset($_POST['last_name'])) {
+        $nom = trim($_POST['last_name']);
+        $prenom = trim($_POST['first_name']);
+        $pseudo = trim($_POST['pseudo']);
+        $email = trim($_POST['email']);
+        $syntaxe = '<^[A-Za-z0-9]*$>';
+        if ($nom && $prenom && $pseudo && $email && $_POST['password1'] && $_POST['password2']) {
+
+            if (preg_match($syntaxe, $nom) && preg_match($syntaxe, $prenom) && preg_match($syntaxe, $pseudo)) {
+                $inscription = new Inscription($nom, $prenom, $pseudo, $email, $_POST['password1'], $_POST['password2']);
+                $resultat = $inscription->inscription();
+                if ($resultat) {
+                    require ('view/administrateurView.php');
+                } else {
+                    $error = $inscription->getError();
+                    require ('view/inscriptionView.php');
+                }
+            } else {
+                $error = "pas de caractere speciaux";
+                require ('view/inscriptionView.php');
             }
+        } else {
+            require ('view/inscriptionView.php');
+        }
     }
-        require ('view/administrateurView.php');
+    if (isset($_POST['user_nameDel'])) {
+        if (Requete::deleteUser($_POST['user_nameDel'])) {
+            echo "Utilisateur supprimer";
+        } else {
+            echo "Effacement echoué";
+        }
     }
-
-
+    require ('view/administrateurView.php');
+}

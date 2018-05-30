@@ -4,38 +4,16 @@ ob_start(); ?>
 
    <div class="addUser">
     <b>Ajouter un utilisateur</b>
-        <form action="index.php" method="post" >
-        <input name="nom" type="text" placeholder="Nom"><br>
-        <input name="prenom" type="text" placeholder="Prenom"><br>
+        <form action="index.php?Administrateur" method="post" >
+        <input name="last_name" type="text" placeholder="Nom"><br>
+        <input name="first_name" type="text" placeholder="Prenom"><br>
         <input name="pseudo" type="text" placeholder="Pseudo"><br>
         <input name="email" type="email" placeholder="Email"><br>
-        <input name="motdepass1" type="password" placeholder="Mot de passe"><br>
-        <input name="motdepass2" type="password" placeholder="Retape motdepass"><br>
+        <input name="password1" type="password" placeholder="Mot de passe"><br>
+        <input name="password2" type="password" placeholder="Retape motdepass"><br>
         <button type="submit">Inscription</button> <br>
-        <?php
-        if (isset($error)) {
-            if (is_array($error)) {
-                echo $error[2];
-            } else {
-                echo $error;
-            }
-        }
-        ?>
-
     </form>
     <br>
-
-<?php
-include_once('../DAOSingleton/Requete.php');
-
-    if (isset($_POST['user_name'])&&isset($_POST['password'])&&isset($_POST['email'])) {
-            if(Requete::inser("user","pseudo,password,email_inscription,id_user_type,id_information",$_POST['user_name'].$_POST['password'].$_POST['email_inscription'])){
-                echo "Utilisateur inscrit";
-
-            }else{
-                echo "Inscription echoué"; 
-            }
-    } ?>
 </div>    
      
        <div class="deleteUser">
@@ -54,17 +32,7 @@ include_once('../DAOSingleton/Requete.php');
         <input type="text" name="news" placeholder="Ecrire actualité" ><br>
         <input type="submit" value="Ajouter actualité">
     </form>
-    
-<?php
-    if (isset($_POST['news'])) {
-        $test = $_POST['news'] ;
-            if(Requete::inser("news","description","'{$test}'" )){
-                echo "News ajouté";
-            }else{
-                echo "Ajout news echoué"; 
-                }
-    } ?>
-    </div>
+       </div>
 
 <?php $content = ob_get_clean(); ?>
 <?php require('template.php'); ?>

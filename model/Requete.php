@@ -344,5 +344,18 @@ class Requete {
          return $bool;
     }
     
+    public static function deleteUser($where) {
+        $bool = FALSE;
+        $where = trim($where);
+        $bdd="DELETE FROM information WHERE id_information = (SELECT id_information from user where pseudo = '".$where."')";
+            if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+            
+        else {
+            self::$erreur = "Table inexistante.";
+        }
+        return $bool;
+    }
  
 }
