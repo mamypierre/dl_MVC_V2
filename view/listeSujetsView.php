@@ -24,11 +24,11 @@ if ($listsujets && $nomCatego) {
 <?php if (isset($_SESSION['pseudo'])) { ?>
 
     <div class="creatSujet"  >
-        <form method="post" action="index.php?idSousCategory=<?= $idSousCategory; ?>">
+        <form method="post" action="index.php?idSousCategoryCreat=<?= $idSousCategory; ?>">
             <p > creatioin d'un sujet  </p>
             <input type="text" name="nomSujer" placeholder="nom du sujet" required  ><br>                   
             <textarea name="message" rows="10" cols="40" id="message" required placeholder="votre message" ></textarea> <br>
-            <input type="submit" value="crée" />
+            <input type="submit" value="creat" />
         </form>
     </div>
 <?php } else { ?>

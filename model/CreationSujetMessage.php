@@ -58,15 +58,15 @@ class CreationSujetMessage {
         return $result;
     }
 
-    public function getidsub() {
+    public function getIdsub() {
         return $this->id_sub_category;
+        ;
     }
-    public function getidSujet() {
+
+    public function getIdSujet() {
         return $this->id_subject;
     }
-    public function getidUser() {
-        return $this->id_user;
-    }
+
 
     private function setId_Subject($id_Subject) {
         $result = FALSE;
@@ -90,9 +90,9 @@ class CreationSujetMessage {
         if (is_numeric($id_sub_category)) {
             $request = Requete::getResultSelect("sub_category", "id_category", "id_sub_category={$id_sub_category}"); // test si category existe
             if ($request) {
-               
-                $this->id_subject = trim($id_sub_category);
-                $result = TRUE;                
+
+                $this->id_sub_category = trim($id_sub_category);
+                $result = TRUE;
             } else {
                 $this->error = "id_sub_category n'existe pas dans la table sub_category";
             }
@@ -103,7 +103,7 @@ class CreationSujetMessage {
         return $result;
     }
 
-    function creat_message() {
+    public function creat_message() {
         $result = FALSE;
         if ($this->content_message && $this->id_subject && $this->id_user) {
             $sql = "INSERT INTO forum_message ( content, id_subject, id_user) VALUES ('" . $this->content_message . "','" . $this->id_subject . "','" . $this->id_user . "')";
@@ -116,14 +116,17 @@ class CreationSujetMessage {
         return $result;
     }
 
-    function creat_sub_messag() {
+    public function creat_subject_and_messag() {
         $rep = FALSE;
         $this->id_subject = NULL;
         if ($this->subject_name && $this->id_sub_category && $this->id_user && $this->content_message) {
             $result = $this->idSujet($this->subject_name);
+            echo $result;
             if (!$result) {
                 Requete::inser("subject", "subject_name, id_sub_category, id_user", "'{$this->subject_name}', '{$this->id_sub_category}', '{$this->id_user}'");
-                $this->id_subject = $this->idSujet($this->subject_name);
+                $result = $this->idSujet($this->subject_name);
+                $this->setId_Subject($result);
+                echo $result;
                 if ($this->id_subject) {
 
                     if ($this->creat_message()) {
@@ -140,16 +143,18 @@ class CreationSujetMessage {
         } else {
             $this->error = "manque subject_name ou id_sub_category ou id_user ou content_message";
         }
+        return $rep;
     }
+    
 
     /*
      * @param type $subject_name  
      * @return type $result idsujet
      */
 
-    function idSujet($subject_name) {
+    public function idSujet($subject_name) {
         $result = NULL;
-        $request = Requete::getResultSelect("subject", "id_subject", "subject_name = {$subject_name} ");
+        $request = Requete::getResultSelect("subject", "id_subject", "subject_name = {$subject_name}");
         if ($request) {
             $result = $request[0]['id_subject'];
         }
@@ -158,7 +163,11 @@ class CreationSujetMessage {
     }
 
     public function getError() {
-        return $this->error;
+        $erreur = NULL ;
+        if ($this->error) {
+            $erreur = $this->error;
+        }
+        return $erreur;
     }
 
 }

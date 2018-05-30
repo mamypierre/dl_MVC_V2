@@ -3,6 +3,7 @@
 require_once('model/Requete.php');
 require_once('model/Connection.php');
 require_once('model/Inscription.php');
+require_once('model/CreationSujetMessage.php');
 
 function listeForum() {
     $listCategorieSoucategrie = Requete::listCategorieSoucategrie();
@@ -81,5 +82,21 @@ function inscription($nom = "", $prenom = "", $pseudo = "", $email = "", $motPas
         }
     } else {
         require ('view/inscriptionView.php');
+    }
+}
+
+function creation_message($id_user, $content_message, $id_subject) {
+    $creationMessage = new CreationSujetMessage($id_user, $content_message, $id_subject);
+    $creationMessage->creat_message();
+    listeMessages($creationMessage->getIdSujet());
+}
+
+function creation_sujet_et_message($id_user, $content_message, $subject_name, $id_sub_category) {
+    $creationMessEtSujet = new CreationSujetMessage($id_user, $content_message, "", $subject_name, $id_sub_category);
+
+    if ($creationMessEtSujet->creat_subject_and_messag()) {       
+        listeSujet($creationMessEtSujet->getIdsub());
+    } else {
+        print_r($creationMessEtSujet->getError());
     }
 }

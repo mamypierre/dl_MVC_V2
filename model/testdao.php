@@ -8,20 +8,19 @@
 require_once ("CreationSujetMessage.php");
 
 
-$test = new CreationSujetMessage("15", "test", "", "tes1", "4") ;
+$test = new CreationSujetMessage("1", "test", "", "nom", "4") ;
 //$test = new Connection("12345678", "pierre");
 //$res = $test->conn();
 
 //$res = $test->inscription();
  //$res = $test->isNomPrenDLafpa();
-if ($test->getidsub()) {
+if ($test->creat_subject_and_messag()) {
     //print_r($test);
-    echo $test->getidsub();
-    echo "c'est bon";
+    echo "c'est bon :";
     //echo $test->idNotDlafpa;
    //echo $test->getResultat();
 } else {
-    echo 'pas bon';
+    echo 'pas bon ';
     print_r($test->getError());
 }
       
