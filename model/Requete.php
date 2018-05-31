@@ -304,5 +304,24 @@ class Requete {
         
         return self::getResults($sql);
     }
-   
+    public static function getprofil($pseudo){
+       $sql = "SELECT first_name, last_name, training_start, training_end, company FROM information\n"
+
+    . "INNER JOIN user ON information.id_information = user.id_information\n"
+
+    . "WHERE user.pseudo = '".$pseudo."'";
+       
+               return self::getResults($sql);
+
+   }
+   public static function getdate($pseudo){
+       $sql = "SELECT training_start, training_end FROM information\n"
+
+    . "INNER JOIN user ON information.id_information = user.id_information\n"
+
+    . "WHERE user.pseudo = '".$pseudo."'";
+       
+               return self::getResults($sql);
+
+   }
 }

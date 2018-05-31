@@ -48,9 +48,9 @@
                         <div class="recherche">
                                         <br>
                             <input class="easyui-combobox" id="users" name="user" data-options="valueField:'pseudo',textField:'ConcatenatedString', url:'view/listeutilisateurs.php',onSelect:function(record){
-                                   alert(record.pseudo)
+                                   parent.location.href='index.php?profil=1&pseudo='+record.pseudo; 
                                    },onChange:function(newValue,oldValue){ $('#utilisateurs').combobox('reload','view/listeutilisateurs.php?saisie='+newValue);}">
-                            <br>     
+                            <br>     <!-- suite de l'URL/index.php?profil=1 -->
                         </div>
                     </form>
                 </div>             

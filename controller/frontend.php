@@ -92,4 +92,14 @@ function inscription($nom = "", $prenom = "", $pseudo = "", $email = "", $motPas
     } else {
         require ('view/inscriptionView.php');
     }
+    
+    
 }
+
+function profil($pseudo){
+        
+        $pseudo = Requete::getprofil($pseudo);
+        
+        require ('view/profilView.php');
+    }
+    
