@@ -309,16 +309,16 @@ class Requete {
         /**
      * 
      * @param type $from quel table modifié
-     * @param type $SET1 quel colonne modifié
-     * @param type $SET2 valeur modifié
+     * @param type $colun quel colonne modifié
+     * @param type $value valeur modifié
      * @param type $where1
      * @return type  $bool si c'est fait
      */
-    public static function update($from,$SET1,$SET2,$where){
+    public static function update($from,$colun,$value,$where){
         $bool = FALSE;
         $from = trim($from);
         if (self::isTable($from)){
-        $bdd="UPDATE ".$from." SET ".$SET1." = '".$SET2."' WHERE ".$where;
+        $bdd="UPDATE ".$from." SET ".$colun." = '".$value."' WHERE ".$where;
             if (self::inserte($bdd)) {
                     $bool = TRUE;
                 }
@@ -359,7 +359,7 @@ class Requete {
     }
  public static function listMessageAndPseudo($id_subject) {
 
-        $sql = "SELECT content , pseudo FROM forum_message INNER JOIN user ON forum_message.id_user = user.id_user where forum_message.id_subject='{$id_subject}'";
+        $sql = "SELECT content , pseudo , forum_message.id_user , forum_message.id_message FROM forum_message INNER JOIN user ON forum_message.id_user = user.id_user where forum_message.id_subject='{$id_subject}'";
         $result = self::getResults($sql);
         if (!$result) {
             $result = NULL;            
