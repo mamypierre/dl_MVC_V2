@@ -120,7 +120,7 @@ class Inscription {
                 }
             } else {
                 //insertion dans la liste d'attente               
-                if (Requete::inser("information", "last_name,first_name,status", "'{$this->nom}','{$this->prenom}',DEFAULT")) {
+                if (Requete::inser("information", "last_name ,first_name,status", "'{$this->nom}','{$this->prenom}',DEFAULT")) {
                     $this->isNomPrenDLafpa();
                     if ($this->idNotDlafpa) {
                         $idType = Requete::getResultSelect("user_type", "id_user_type", "type=unknown");
