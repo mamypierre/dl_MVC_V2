@@ -1,10 +1,10 @@
-<?php $title = "modif message"; ?>
+<?php $title = "modif sujet"; ?>
 
 <?php ob_start(); ?>
 <?php if (isset($_SESSION['pseudo'])) { ?>
-    <div class="creatSujet"  >
-        <form method="post" action="index.php?idSuj=<?= $idsubjet; ?>">
-            <input type="textarea" name="message"  value="<?= $nomSujet[0]['subject_name']; ?>"   id="message" required  >               
+    <div class="sujetEdit"  >
+        <form method="post" action="index.php?IdEditSujet=<?= $idsubjet; ?>">
+            <input type="textarea" name="sujetEdit"  value="<?= $nomSujet[0]['subject_name']; ?>"   id="edit" required  >               
              <br>
             <input type="submit" value="modifier" />
         </form>

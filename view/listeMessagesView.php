@@ -9,7 +9,12 @@ if ($listeMessages && $nomSujet) {
         <?php foreach ($listeMessages as $message) { ?>
         <div class="post" > <p> <?php echo $message['pseudo'].':  '. $message['content']; ?> </p> </div>
         
-        <?php } ?>
+        <?php if (isset($_SESSION['idUser']) && $message['id_user'] == $_SESSION['idUser']) { ?>
+            <div class="sousCategory"> 
+                <a href="index.php?IdMessage=<?= $message['id_message']; ?>"> modifier  </a>
+                <a href="index.php?deleteMessage=<?= $message['id_message']; ?>"> suprimer  </a> 
+            </div>
+        <?php } } ?>
         </div>
     <?php } ?>
     

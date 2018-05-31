@@ -121,12 +121,10 @@ class CreationSujetMessage {
         $this->id_subject = NULL;
         if ($this->subject_name && $this->id_sub_category && $this->id_user && $this->content_message) {
             $result = $this->idSujet($this->subject_name);
-            echo $result;
             if (!$result) {
                 Requete::inser("subject", "subject_name, id_sub_category, id_user", "'{$this->subject_name}', '{$this->id_sub_category}', '{$this->id_user}'");
                 $result = $this->idSujet($this->subject_name);
                 $this->setId_Subject($result);
-                echo $result;
                 if ($this->id_subject) {
 
                     if ($this->creat_message()) {

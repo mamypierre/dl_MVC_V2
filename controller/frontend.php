@@ -68,16 +68,34 @@ function creation_message($id_user, $content_message, $id_subject) {
 function creation_sujet_et_message($id_user, $content_message, $subject_name, $id_sub_category) {
     $creationMessEtSujet = new CreationSujetMessage($id_user, $content_message, "", $subject_name, $id_sub_category);
 
-    if ($creationMessEtSujet->creat_subject_and_messag()) {
-        listeSujet($creationMessEtSujet->getIdsub());
+    $creationMessEtSujet->creat_subject_and_messag();
+    listeSujet($creationMessEtSujet->getIdsub());
+}
+
+function editMessage($id_message, $contentMessage = "") {
+
+    $content = Requete::getResultSelect("forum_message ", "content, id_subject", "id_message={$id_message}");
+
+    if ($id_message && $contentMessage) {
+        Requete::update("forum_message", "content", "$contentMessage", "id_message={$id_message}");
+        listeMessages($content[0]['id_subject']);
     } else {
-        print_r($creationMessEtSujet->getError());
+
+        require ('view/modification_message view.php');
     }
 }
 
-function edit($idsubjet) {
-    $nomSujet = Requete::getResultSelect("subject ", "subject_name ", "id_subject={$idsubjet}");
-    require ('view/modification_nom_sujet_view.php');
+function editSujet($idsubjet, $content = "") {
+
+    $nomSujet = Requete::getResultSelect("subject ", "subject_name, id_sub_category", "id_subject={$idsubjet}");
+
+    if ($idsubjet && $content) {
+        Requete::update("subject", "subject_name", "$content", "id_subject={$idsubjet}");
+        listeSujet($nomSujet[0]['id_sub_category']);
+    } else {
+
+        require ('view/modification_nom_sujet_view.php');
+    }
 }
 
 function inscription($nom = "", $prenom = "", $pseudo = "", $email = "", $motPass1 = "", $motPass2 = "") {
