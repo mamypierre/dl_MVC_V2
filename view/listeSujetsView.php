@@ -37,8 +37,6 @@ if ($listsujets && $nomCatego) {
             <input type="submit" value="creat" />
         </form>
     </div>
-<?php } else { ?>
-    <p> Erreur aucun contenue!</p>
 <?php } ?>
 
 <?php $content = ob_get_clean(); ?>
