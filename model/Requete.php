@@ -33,7 +33,23 @@ class Requete {
         ConnectionSingleton::close();
         return $res;
     }
-   
+
+    /* private static function getResults1($query) {
+      $res = NULL;
+      $bdb = ConnectionSingleton::getInstance();
+      $reponse = $bdb->query($query);
+      if (isset($reponse) && $reponse != "") {
+
+      $reponse->setFetchMode(PDO::FETCH_ASSOC);
+      $res = $reponse->fetch();
+
+
+      $reponse = NULL;
+      }
+      ConnectionSingleton::close();
+      return $res;
+      } */
+
     /**
      * permet de recupere des resultat d'une requete en forme de tableau
      * @param type $from est la table ou en veut chercher les donnes 'OBLIGATOIR'
@@ -45,16 +61,14 @@ class Requete {
         $result = NULL;
         $from = trim($from);
         if (isset($from) && $from != "" && self::isTable($from)) {//verifier si la table existe
-            if ($select) {              
+            if ($select) {
+
                 $select = self::isColonne($select, $from); // verifie si la selection existe
                 if ($select) {
-                    $query = "select " . $select . " from {$from}"; //constitution de la 2 em requete valide                    
+                    $query = "select " . $select . " from {$from}"; //constitution de la 2 em requete valide
                     if ($where) {
                         $condition = self::extraction($where, "="); // separation de colonne et valeur
-                        if (count($condition) > 2) {                            
-                            $query .= " where {$where}";
-                            $result = self::getResults($query);
-                        } else {
+                        if ($condition) {
                             $col = trim($condition[0]);
                             $val = trim($condition[1]);
                             $test = self::isColonne($col, $from);
@@ -275,10 +289,73 @@ class Requete {
                 . "FROM category INNER JOIN sub_category ON category.id_category = sub_category.id_category";
         $result = self::getResults($sql);
         if (!$result) {
-            $result = NULL;
+            $result = NULL;            
         }
         return $result;
     }
-
+    public static function delete( $from, $where1,$where2) {
+        $bool = FALSE;
+        $from = trim($from);
+        if (self::isTable($from)){
+        $bdd="DELETE FROM ".$from." WHERE ".$where1." = '".$where2."'";
+            if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+        }else {
+            self::$erreur = "Table inexistante.";
+        }
+        return $bool;
+    }
+        /**
+     * 
+     * @param type $from quel table modifié
+     * @param type $SET1 quel colonne modifié
+     * @param type $SET2 valeur modifié
+     * @param type $where1
+     * @return type  $bool si c'est fait
+     */
+    public static function update($from,$SET1,$SET2,$where){
+        $bool = FALSE;
+        $from = trim($from);
+        if (self::isTable($from)){
+        $bdd="UPDATE ".$from." SET ".$SET1." = '".$SET2."' WHERE ".$where;
+            if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+        }else {
+            self::$erreur = "Table inexistante.";
+        }
+        return $bool;
+    }
+        /**
+     * 
+     * @param type $pseudo personna a accepter ou refuser
+     * @param type $validation "Validé"ou "Non Validé"
+     * @return type  $bool si c'est fait
+     * a faire inner join nom prenom
+     */
+    public static function approveWaiting($nom,$prenom,$validation){
+        $bool = FALSE;
+        echo "ok";
+        $bdd="UPDATE waiting_list INNER JOIN USER ON waiting_list.id_waiting_list = USER.id_waiting_list INNER JOIN information ON user.id_information = information.id_information SET waiting_list.approval = '".$validation."' WHERE information.user_name= '".$nom."' AND information.user_forename = '".$prenom."'";
+        if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+         return $bool;
+    }
     
+    public static function deleteUser($where) {
+        $bool = FALSE;
+        $where = trim($where);
+        $bdd="DELETE FROM information WHERE id_information = (SELECT id_information from user where pseudo = '".$where."')";
+            if (self::inserte($bdd)) {
+                    $bool = TRUE;
+                }
+            
+        else {
+            self::$erreur = "Table inexistante.";
+        }
+        return $bool;
+    }
+ 
 }
