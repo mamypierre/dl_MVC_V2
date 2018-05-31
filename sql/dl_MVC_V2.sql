@@ -2,8 +2,8 @@
 -- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le :  jeu. 31 mai 2018 à 06:53
+-- Hôte : localhost:8889
+-- Généré le :  lun. 28 mai 2018 à 14:12
 -- Version du serveur :  5.6.38
 -- Version de PHP :  7.2.1
 
@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `category` (
   `id_category` mediumint(9) NOT NULL,
-  `category_name` varchar(250) NOT NULL
+  `category_name` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -30,7 +30,7 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id_category`, `category_name`) VALUES
-(3, 'cours');
+(3, 'cour');
 
 -- --------------------------------------------------------
 
@@ -40,11 +40,10 @@ INSERT INTO `category` (`id_category`, `category_name`) VALUES
 
 CREATE TABLE `event` (
   `id_event` mediumint(9) NOT NULL,
-  `description` varchar(250) NOT NULL,
+  `description` varchar(100) NOT NULL,
   `event_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `approval` enum('En cours','Validé','Non Validé') NOT NULL DEFAULT 'En cours',
-  `id_user` mediumint(9) NOT NULL,
-  `picture_event` varchar(250) NOT NULL
+  `id_user` mediumint(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -82,8 +81,7 @@ CREATE TABLE `information` (
 --
 
 INSERT INTO `information` (`last_name`, `first_name`, `training_start`, `training_end`, `company`, `status`, `id_information`) VALUES
-('test2', 'test2', NULL, NULL, NULL, 'NonDlAfpa', 1),
-('test2', 'idris', NULL, NULL, NULL, 'DlAfpa', 8);
+('mamy', 'pierre', NULL, NULL, NULL, 'DlAfpa', 10);
 
 -- --------------------------------------------------------
 
@@ -93,10 +91,9 @@ INSERT INTO `information` (`last_name`, `first_name`, `training_start`, `trainin
 
 CREATE TABLE `mailbox` (
   `id_mail` mediumint(9) NOT NULL,
-  `mail` text NOT NULL,
+  `mail` varchar(40) NOT NULL,
   `send_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `id_user` mediumint(9) NOT NULL,
-  `attached` varchar(250) NOT NULL
+  `id_user` mediumint(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -107,19 +104,9 @@ CREATE TABLE `mailbox` (
 
 CREATE TABLE `news` (
   `id_news` mediumint(9) NOT NULL,
-  `description` text NOT NULL,
-  `date_news` datetime DEFAULT CURRENT_TIMESTAMP,
-  `picture_news` varchar(250) NOT NULL
+  `description` varchar(100) NOT NULL,
+  `date_news` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `news`
---
-
-INSERT INTO `news` (`id_news`, `description`, `date_news`, `picture_news`) VALUES
-(1, 'sqdqsd', '2018-05-30 08:36:30', ''),
-(2, 'ertertretert', '2018-05-30 11:20:30', ''),
-(3, 'ertertretert', '2018-05-30 11:20:37', '');
 
 -- --------------------------------------------------------
 
@@ -129,7 +116,7 @@ INSERT INTO `news` (`id_news`, `description`, `date_news`, `picture_news`) VALUE
 
 CREATE TABLE `subject` (
   `id_subject` mediumint(9) NOT NULL,
-  `subject_name` varchar(250) NOT NULL,
+  `subject_name` varchar(15) NOT NULL,
   `id_sub_category` mediumint(9) NOT NULL,
   `id_user` mediumint(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -142,8 +129,8 @@ CREATE TABLE `subject` (
 
 CREATE TABLE `sub_category` (
   `id_sub_category` mediumint(9) NOT NULL,
-  `sub_category_name` varchar(100) NOT NULL,
-  `sub_category_description` varchar(100) NOT NULL,
+  `sub_category_name` varchar(15) NOT NULL,
+  `sub_category_description` varchar(60) NOT NULL,
   `id_category` mediumint(9) NOT NULL,
   `image_sub_category` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -154,7 +141,7 @@ CREATE TABLE `sub_category` (
 
 INSERT INTO `sub_category` (`id_sub_category`, `sub_category_name`, `sub_category_description`, `id_category`, `image_sub_category`) VALUES
 (4, 'PHP', 'question a propos de php', 3, ''),
-(5, 'JAVA', 'Besoin d\'une éclairage', 3, '');
+(5, 'JAVA', 'Besoin d\'une eclerage', 3, '');
 
 -- --------------------------------------------------------
 
@@ -164,9 +151,9 @@ INSERT INTO `sub_category` (`id_sub_category`, `sub_category_name`, `sub_categor
 
 CREATE TABLE `user` (
   `id_user` mediumint(9) NOT NULL,
-  `password` text NOT NULL,
-  `pseudo` varchar(50) NOT NULL,
-  `email_inscription` varchar(100) NOT NULL,
+  `password` varchar(1000) NOT NULL,
+  `pseudo` varchar(20) NOT NULL,
+  `email_inscription` varchar(40) NOT NULL,
   `date_inscription` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_information` mediumint(9) NOT NULL,
   `id_user_type` mediumint(9) NOT NULL,
@@ -178,7 +165,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `password`, `pseudo`, `email_inscription`, `date_inscription`, `id_information`, `id_user_type`, `avatar`) VALUES
-(8, '$2y$10$MuBN2E6MkZpCYoMNkCOGnu0zP..luCdzZQj0sc50fpWYFvnn0gQBG', 'idrisb', 'sfdf@sdfsf.net', '2018-05-30 13:57:39', 8, 3, '');
+(15, '$2y$10$5HfzLSevw40OvMryo3vJ5.sncTN9vryz/hxlKmykPT8cO8rlYgf.O', 'saw', 'eef@gzmio.com', '2018-05-25 10:59:51', 10, 1, '');
 
 -- --------------------------------------------------------
 
@@ -188,7 +175,7 @@ INSERT INTO `user` (`id_user`, `password`, `pseudo`, `email_inscription`, `date_
 
 CREATE TABLE `user_type` (
   `type` enum('utilisateur','modérateur','webmaster','unknown') NOT NULL DEFAULT 'utilisateur',
-  `descriptif` varchar(1000) NOT NULL,
+  `descriptif` varchar(100) NOT NULL,
   `id_user_type` mediumint(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -217,13 +204,6 @@ CREATE TABLE `waiting_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `waiting_list`
---
-
-INSERT INTO `waiting_list` (`id_user`, `id_waiting_list`, `inscription_list_start`, `inscription_list_end`, `approval`) VALUES
-(8, 8, '2018-05-30 13:57:39', NULL, 'Validé');
-
---
 -- Index pour les tables déchargées
 --
 
@@ -231,8 +211,7 @@ INSERT INTO `waiting_list` (`id_user`, `id_waiting_list`, `inscription_list_star
 -- Index pour la table `category`
 --
 ALTER TABLE `category`
-  ADD PRIMARY KEY (`id_category`),
-  ADD UNIQUE KEY `category_name` (`category_name`);
+  ADD PRIMARY KEY (`id_category`);
 
 --
 -- Index pour la table `event`
@@ -273,7 +252,6 @@ ALTER TABLE `news`
 --
 ALTER TABLE `subject`
   ADD PRIMARY KEY (`id_subject`),
-  ADD UNIQUE KEY `subject_name` (`subject_name`),
   ADD KEY `id_sub_category` (`id_sub_category`),
   ADD KEY `id_user` (`id_user`);
 
@@ -282,7 +260,6 @@ ALTER TABLE `subject`
 --
 ALTER TABLE `sub_category`
   ADD PRIMARY KEY (`id_sub_category`),
-  ADD UNIQUE KEY `sub_category_name` (`sub_category_name`),
   ADD KEY `id_category` (`id_category`);
 
 --
@@ -334,7 +311,7 @@ ALTER TABLE `forum_message`
 -- AUTO_INCREMENT pour la table `information`
 --
 ALTER TABLE `information`
-  MODIFY `id_information` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_information` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `mailbox`
@@ -346,7 +323,7 @@ ALTER TABLE `mailbox`
 -- AUTO_INCREMENT pour la table `news`
 --
 ALTER TABLE `news`
-  MODIFY `id_news` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_news` mediumint(9) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `subject`
@@ -364,7 +341,7 @@ ALTER TABLE `sub_category`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_user` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `user_type`
@@ -376,7 +353,7 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT pour la table `waiting_list`
 --
 ALTER TABLE `waiting_list`
-  MODIFY `id_waiting_list` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_waiting_list` mediumint(9) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
@@ -386,43 +363,43 @@ ALTER TABLE `waiting_list`
 -- Contraintes pour la table `event`
 --
 ALTER TABLE `event`
-  ADD CONSTRAINT `evenement_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE;
+  ADD CONSTRAINT `evenement_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
 -- Contraintes pour la table `forum_message`
 --
 ALTER TABLE `forum_message`
   ADD CONSTRAINT `message_forum_ibfk_1` FOREIGN KEY (`id_subject`) REFERENCES `subject` (`id_subject`),
-  ADD CONSTRAINT `message_forum_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE;
+  ADD CONSTRAINT `message_forum_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
 -- Contraintes pour la table `mailbox`
 --
 ALTER TABLE `mailbox`
-  ADD CONSTRAINT `messagerie_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE;
+  ADD CONSTRAINT `messagerie_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
 -- Contraintes pour la table `subject`
 --
 ALTER TABLE `subject`
   ADD CONSTRAINT `sujet_ibfk_1` FOREIGN KEY (`id_sub_category`) REFERENCES `sub_category` (`id_sub_category`),
-  ADD CONSTRAINT `sujet_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE;
+  ADD CONSTRAINT `sujet_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 
 --
 -- Contraintes pour la table `sub_category`
 --
 ALTER TABLE `sub_category`
-  ADD CONSTRAINT `sous_categorie_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`) ON DELETE CASCADE;
+  ADD CONSTRAINT `sous_categorie_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`);
 
 --
 -- Contraintes pour la table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `utilisateurs_ibfk_1` FOREIGN KEY (`id_user_type`) REFERENCES `user_type` (`id_user_type`),
-  ADD CONSTRAINT `utilisateurs_ibfk_2` FOREIGN KEY (`id_information`) REFERENCES `information` (`id_information`) ON DELETE CASCADE;
+  ADD CONSTRAINT `utilisateurs_ibfk_2` FOREIGN KEY (`id_information`) REFERENCES `information` (`id_information`);
 
 --
 -- Contraintes pour la table `waiting_list`
 --
 ALTER TABLE `waiting_list`
-  ADD CONSTRAINT `waiting_list_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE;
+  ADD CONSTRAINT `waiting_list_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
