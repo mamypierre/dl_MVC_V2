@@ -18,9 +18,9 @@ class Inscription {
     private $idUser;
 
     public function __construct($nom, $prenom, $pseudo, $email, $motPass1, $motPass2) {
-        $this->nom = trim($nom);
-        $this->prenom = trim($prenom);
-        $this->pseudo = trim($pseudo);
+        $this->nom = str_replace("'", "''", $nom);
+        $this->prenom = str_replace("'", "''", $prenom);
+        $this->pseudo = str_replace("'", "''", $pseudo);
         $this->email = trim($email);
         $this->motPass1 = $motPass1;
         $this->motPass2 = $motPass2;
