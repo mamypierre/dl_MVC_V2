@@ -7,7 +7,7 @@ if ($listeMessages && $nomSujet) {
     <div class="titre" > <h2> <?= $nomSujet[0]['subject_name']; ?> </h2> </div>
     <div class="posts" >
         <?php foreach ($listeMessages as $message) { ?>
-            <div class="post" > <p> <?= $message['content']; ?> </p> </div>
+        <div class="post" > <p> <?php echo $message['pseudo'].':  '. $message['content']; ?> </p> </div>
         
         <?php } ?>
         </div>

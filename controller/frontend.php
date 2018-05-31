@@ -18,9 +18,8 @@ function listeSujet($idSousCategory) {
 }
 
 function listeMessages($idSujet) {
-    $listeMessages = Requete::getResultSelect("forum_message", "content", "id_subject = {$idSujet}");
+    $listeMessages = Requete::listMessageAndPseudo($idSujet);
     $nomSujet = Requete::getResultSelect("subject", "subject_name", "id_subject = {$idSujet}");
-
     require ('view/listeMessagesView.php');
 }
 
@@ -34,6 +33,7 @@ function connection($motdepass = "", $pseudo = "") {
             //creation de variable de session 
             $_SESSION['idUser'] = $connection->getIdUser();
             $_SESSION['pseudo'] = $pseudo;
+            $_SESSION['UserType'] = $connection->getUserType();
             $_SESSION['time'] = time();
             require ('view/aceuille.php');
         } else {

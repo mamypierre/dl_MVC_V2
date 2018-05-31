@@ -20,7 +20,7 @@ class CreationSujetMessage {
             $this->subject_name = str_replace("'", "''", $subject_name);
         }
         if (isset($id_user) && trim($id_user)) {
-            $this->setIdUser($id_user);
+            $this->id_user = trim($id_user);
         }
         if (isset($id_subject) && trim($id_subject)) {
             $this->setId_Subject($id_subject);
@@ -30,7 +30,7 @@ class CreationSujetMessage {
         }
     }
 
-    private function setIdUser($id_user) {
+    /*private function setIdUser($id_user) {
         $result = FALSE;
         if (is_numeric($id_user)) {
             $request = Requete::getResultSelect("user", "id_user", "id_user={$id_user}"); // test si user existe
@@ -56,7 +56,7 @@ class CreationSujetMessage {
         }
 
         return $result;
-    }
+    }*/
 
     public function getIdsub() {
         return $this->id_sub_category;
