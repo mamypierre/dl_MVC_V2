@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  mar. 29 mai 2018 à 14:38
+-- Généré le :  jeu. 31 mai 2018 à 06:53
 -- Version du serveur :  5.6.38
 -- Version de PHP :  7.2.1
 
@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `category` (
   `id_category` mediumint(9) NOT NULL,
-  `category_name` varchar(15) NOT NULL
+  `category_name` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -40,7 +40,7 @@ INSERT INTO `category` (`id_category`, `category_name`) VALUES
 
 CREATE TABLE `event` (
   `id_event` mediumint(9) NOT NULL,
-  `description` varchar(100) NOT NULL,
+  `description` varchar(250) NOT NULL,
   `event_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `approval` enum('En cours','Validé','Non Validé') NOT NULL DEFAULT 'En cours',
   `id_user` mediumint(9) NOT NULL,
@@ -81,6 +81,9 @@ CREATE TABLE `information` (
 -- Déchargement des données de la table `information`
 --
 
+INSERT INTO `information` (`last_name`, `first_name`, `training_start`, `training_end`, `company`, `status`, `id_information`) VALUES
+('test2', 'test2', NULL, NULL, NULL, 'NonDlAfpa', 1),
+('test2', 'idris', NULL, NULL, NULL, 'DlAfpa', 8);
 
 -- --------------------------------------------------------
 
@@ -90,9 +93,10 @@ CREATE TABLE `information` (
 
 CREATE TABLE `mailbox` (
   `id_mail` mediumint(9) NOT NULL,
-  `mail` varchar(40) NOT NULL,
+  `mail` text NOT NULL,
   `send_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `id_user` mediumint(9) NOT NULL
+  `id_user` mediumint(9) NOT NULL,
+  `attached` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -103,10 +107,19 @@ CREATE TABLE `mailbox` (
 
 CREATE TABLE `news` (
   `id_news` mediumint(9) NOT NULL,
-  `description` varchar(100) NOT NULL,
+  `description` text NOT NULL,
   `date_news` datetime DEFAULT CURRENT_TIMESTAMP,
   `picture_news` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `news`
+--
+
+INSERT INTO `news` (`id_news`, `description`, `date_news`, `picture_news`) VALUES
+(1, 'sqdqsd', '2018-05-30 08:36:30', ''),
+(2, 'ertertretert', '2018-05-30 11:20:30', ''),
+(3, 'ertertretert', '2018-05-30 11:20:37', '');
 
 -- --------------------------------------------------------
 
@@ -116,7 +129,7 @@ CREATE TABLE `news` (
 
 CREATE TABLE `subject` (
   `id_subject` mediumint(9) NOT NULL,
-  `subject_name` varchar(15) NOT NULL,
+  `subject_name` varchar(250) NOT NULL,
   `id_sub_category` mediumint(9) NOT NULL,
   `id_user` mediumint(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -129,8 +142,8 @@ CREATE TABLE `subject` (
 
 CREATE TABLE `sub_category` (
   `id_sub_category` mediumint(9) NOT NULL,
-  `sub_category_name` varchar(15) NOT NULL,
-  `sub_category_description` varchar(60) NOT NULL,
+  `sub_category_name` varchar(100) NOT NULL,
+  `sub_category_description` varchar(100) NOT NULL,
   `id_category` mediumint(9) NOT NULL,
   `image_sub_category` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -151,9 +164,9 @@ INSERT INTO `sub_category` (`id_sub_category`, `sub_category_name`, `sub_categor
 
 CREATE TABLE `user` (
   `id_user` mediumint(9) NOT NULL,
-  `password` varchar(1000) NOT NULL,
-  `pseudo` varchar(20) NOT NULL,
-  `email_inscription` varchar(40) NOT NULL,
+  `password` text NOT NULL,
+  `pseudo` varchar(50) NOT NULL,
+  `email_inscription` varchar(100) NOT NULL,
   `date_inscription` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_information` mediumint(9) NOT NULL,
   `id_user_type` mediumint(9) NOT NULL,
@@ -164,6 +177,9 @@ CREATE TABLE `user` (
 -- Déchargement des données de la table `user`
 --
 
+INSERT INTO `user` (`id_user`, `password`, `pseudo`, `email_inscription`, `date_inscription`, `id_information`, `id_user_type`, `avatar`) VALUES
+(8, '$2y$10$MuBN2E6MkZpCYoMNkCOGnu0zP..luCdzZQj0sc50fpWYFvnn0gQBG', 'idrisb', 'sfdf@sdfsf.net', '2018-05-30 13:57:39', 8, 3, '');
+
 -- --------------------------------------------------------
 
 --
@@ -172,7 +188,7 @@ CREATE TABLE `user` (
 
 CREATE TABLE `user_type` (
   `type` enum('utilisateur','modérateur','webmaster','unknown') NOT NULL DEFAULT 'utilisateur',
-  `descriptif` varchar(100) NOT NULL,
+  `descriptif` varchar(1000) NOT NULL,
   `id_user_type` mediumint(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -201,6 +217,13 @@ CREATE TABLE `waiting_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Déchargement des données de la table `waiting_list`
+--
+
+INSERT INTO `waiting_list` (`id_user`, `id_waiting_list`, `inscription_list_start`, `inscription_list_end`, `approval`) VALUES
+(8, 8, '2018-05-30 13:57:39', NULL, 'Validé');
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -208,7 +231,8 @@ CREATE TABLE `waiting_list` (
 -- Index pour la table `category`
 --
 ALTER TABLE `category`
-  ADD PRIMARY KEY (`id_category`);
+  ADD PRIMARY KEY (`id_category`),
+  ADD UNIQUE KEY `category_name` (`category_name`);
 
 --
 -- Index pour la table `event`
@@ -249,6 +273,7 @@ ALTER TABLE `news`
 --
 ALTER TABLE `subject`
   ADD PRIMARY KEY (`id_subject`),
+  ADD UNIQUE KEY `subject_name` (`subject_name`),
   ADD KEY `id_sub_category` (`id_sub_category`),
   ADD KEY `id_user` (`id_user`);
 
@@ -257,6 +282,7 @@ ALTER TABLE `subject`
 --
 ALTER TABLE `sub_category`
   ADD PRIMARY KEY (`id_sub_category`),
+  ADD UNIQUE KEY `sub_category_name` (`sub_category_name`),
   ADD KEY `id_category` (`id_category`);
 
 --
@@ -290,7 +316,7 @@ ALTER TABLE `waiting_list`
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id_category` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_category` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `event`
@@ -308,7 +334,7 @@ ALTER TABLE `forum_message`
 -- AUTO_INCREMENT pour la table `information`
 --
 ALTER TABLE `information`
-  MODIFY `id_information` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_information` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `mailbox`
@@ -320,7 +346,7 @@ ALTER TABLE `mailbox`
 -- AUTO_INCREMENT pour la table `news`
 --
 ALTER TABLE `news`
-  MODIFY `id_news` mediumint(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_news` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `subject`
@@ -332,25 +358,25 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT pour la table `sub_category`
 --
 ALTER TABLE `sub_category`
-  MODIFY `id_sub_category` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_sub_category` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_user` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `user_type`
 --
 ALTER TABLE `user_type`
-  MODIFY `id_user_type` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_user_type` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `waiting_list`
 --
 ALTER TABLE `waiting_list`
-  MODIFY `id_waiting_list` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_waiting_list` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Contraintes pour les tables déchargées
