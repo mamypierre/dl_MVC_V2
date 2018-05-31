@@ -11,7 +11,7 @@
             <div class="tete" >
                 <div class="accueille" > 
                     <div class="accueille1" ><a href="index.php?forum"><img src="public/img/logo.png" alt="logo" height="100" width="100"> </a> </div>
-                    <div class="accueille2" > <a href="index.php"class="a" >Accueil</a></div>
+                    <div class="accueille2" > <a href="index.php"class="a" >Accueil </a></div>
                 </div>
                 <div class="connection" > 
                     <?php if (!isset($_SESSION['pseudo'])) { ?>
@@ -28,6 +28,10 @@
                 <div class="boutonvan1" > <a href="index.php?forum" >Forum</a> </div>
                 <div class="boutonvan1" > <a href="index.php?Evenement" >Evenement</a></div>
                 <div class="boutonvan1" > <a href="index.php?News" >News</a></div>
+                <?php if (isset($_SESSION['UserType'])&& $_SESSION['UserType']=="webmaster"){?>
+                    <div class="boutonvan1" > <a href="index.php?Administrateur" >Administrateur</a></div>
+                <?php } ?> 
+                
             </div>
 
 

@@ -3,25 +3,34 @@
 require_once('model/Requete.php');
 require_once('model/Connection.php');
 require_once('model/Inscription.php');
-require_once('model/CreationSujetMessage.php');
 
 function listeForum() {
     $listCategorieSoucategrie = Requete::listCategorieSoucategrie();
-    require ('view/listeCategoryView.php');
+    if ($listCategorieSoucategrie) {
+        require ('view/listeCategoryView.php');
+    } else {
+        require ('view/pageEmpty.php');
+    }
 }
 
 function listeSujet($idSousCategory) {
-    $listsujets = Requete::getResultSelect("subject", "id_subject ,subject_name, id_user ", "id_sub_category= {$idSousCategory}");
-    $nomCatego = Requete::getResultSelect("sub_category", "sub_category_name", "id_sub_category = {$idSousCategory}");
-
-    require ('view/listeSujetsView.php');
+    $listsujets = Requete::getResultSelect("sujet", "id_sujet ,nom_sujet ", "id_sous_catégorie= {$idSousCategory}");
+    $nomCatego = Requete::getResultSelect("sous_categorie", "nom_sous_catégorie", "id_sous_catégorie = {$idSousCategory}");
+    if ($listsujets && $nomCatego) {
+        require ('view/listeSujetsView.php');
+    } else {
+        require ('view/aceuille.php');
+    }
 }
 
 function listeMessages($idSujet) {
-    $listeMessages = Requete::getResultSelect("forum_message", "content", "id_subject = {$idSujet}");
-    $nomSujet = Requete::getResultSelect("subject", "subject_name", "id_subject = {$idSujet}");
-
-    require ('view/listeMessagesView.php');
+    $listeMessages = Requete::getResultSelect("message_forum", "contenue", "id_sujet = {$idSujet}");
+    $nomSujet = Requete::getResultSelect("sujet", "nom_sujet", "id_sujet = {$idSujet}");
+    if ($listeMessages && $nomSujet) {
+        require ('view/listeMessagesView.php');
+    } else {
+        require ('view/aceuille.php');
+    }
 }
 
 function connection($motdepass = "", $pseudo = "") {
@@ -33,6 +42,7 @@ function connection($motdepass = "", $pseudo = "") {
 
             //creation de variable de session 
             $_SESSION['idUser'] = $connection->getIdUser();
+            $_SESSION['UserType'] = $connection->getUserType();
             $_SESSION['pseudo'] = $pseudo;
             $_SESSION['time'] = time();
             require ('view/aceuille.php');
@@ -77,7 +87,7 @@ function inscription($nom = "", $prenom = "", $pseudo = "", $email = "", $motPas
                 require ('view/inscriptionView.php');
             }
         } else {
-            $error = "pas de caracter speciaux";
+            $error = "pas de caractere speciaux";
             require ('view/inscriptionView.php');
         }
     } else {
@@ -85,23 +95,52 @@ function inscription($nom = "", $prenom = "", $pseudo = "", $email = "", $motPas
     }
 }
 
-function creation_message($id_user, $content_message, $id_subject) {
-    $creationMessage = new CreationSujetMessage($id_user, $content_message, $id_subject);
-    $creationMessage->creat_message();
-    listeMessages($creationMessage->getIdSujet());
-}
-
-function creation_sujet_et_message($id_user, $content_message, $subject_name, $id_sub_category) {
-    $creationMessEtSujet = new CreationSujetMessage($id_user, $content_message, "", $subject_name, $id_sub_category);
-
-    if ($creationMessEtSujet->creat_subject_and_messag()) {
-        listeSujet($creationMessEtSujet->getIdsub());
-    } else {
-        print_r($creationMessEtSujet->getError());
+function administrateur() {
+    if (isset($_POST['news'])) {
+        $test = $_POST['news'];
+        if (Requete::inser("news", "description", "'{$test}'")) {
+            echo "News ajouté";
+        } else {
+            echo "Ajout news echoué";
+        }
     }
-}
 
-function edit($idsubjet) {
-    $nomSujet = Requete::getResultSelect("subject ", "subject_name ", "id_subject={$idsubjet}") ;
-    require ('view/modification_nom_sujet_view.php');
+    if (isset($_POST['pseudo']) && isset($_POST['password1']) && isset($_POST['email']) && isset($_POST['first_name']) && isset($_POST['last_name'])) {
+        $nom = trim($_POST['last_name']);
+        $prenom = trim($_POST['first_name']);
+        $pseudo = trim($_POST['pseudo']);
+        $email = trim($_POST['email']);
+        $syntaxe = '<^[A-Za-z0-9]*$>';
+        if ($nom && $prenom && $pseudo && $email && $_POST['password1'] && $_POST['password2']) {
+
+            if (preg_match($syntaxe, $nom) && preg_match($syntaxe, $prenom) && preg_match($syntaxe, $pseudo)) {
+                $inscription = new Inscription($nom, $prenom, $pseudo, $email, $_POST['password1'], $_POST['password2']);
+                $resultat = $inscription->inscription();
+                if ($resultat) {
+                    require ('view/administrateurView.php');
+                } else {
+                    $error = $inscription->getError();
+                    require ('view/inscriptionView.php');
+                }
+            } else {
+                $error = "pas de caractere speciaux";
+                require ('view/inscriptionView.php');
+            }
+        } else {
+            require ('view/inscriptionView.php');
+        }
+    }
+ if (isset($_POST['user_nameDel'])) {
+        $query = "SELECT status from information inner join user on information.id_information = user.id_information where pseudo = ".$_POST['user_nameDel'];
+        if (Requete::getResults($query)!="DlAfpa"){  
+            if (Requete::deleteUser($_POST['user_nameDel'])) {
+            echo "Utilisateur supprimer";
+        } else {
+            echo "Effacement echoué";
+        }} elseif (Requete::delete("user", "pseudo",$_POST['user_nameDel'])){    
+          echo "Utilisateur supprimer";
+        } else {
+        echo "Effacement echoué";}
+    }
+    require ('view/administrateurView.php');
 }

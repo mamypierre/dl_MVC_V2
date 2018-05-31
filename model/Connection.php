@@ -9,6 +9,7 @@ class Connection {
     private $error;
     private $result;
     private $idUser;
+    private $userType;
 
     public function __construct($motpass, $pseudo) {
         $this->pseudo = $pseudo;
@@ -29,18 +30,19 @@ class Connection {
         $result = Requete::getresultSelect("user", "id_user, password, id_user_type", "pseudo ={$this->pseudo}");
 
         if ($result) {
-            $resulta = Requete::getResultSelect("user_type", "type", "id_user_type={$result[0]['id_user_type']}");
-            if ($resulta[0]['type'] != "inconu") {
-                if (password_verify($this->motdepass, $result[0]['password'])) {
 
+            if (password_verify($this->motdepass, $result[0]['password'])) {
+                $resulta = Requete::getResultSelect("user_type", "type", "id_user_type={$result[0]['id_user_type']}");
+                if ($resulta[0]['type'] == "utilisateur" || $resulta[0]['type'] == "modérateur" ||$resulta[0]['type'] == "webmaster"  ) {
+                    $this->userType = $resulta[0]['type'];
                     $this->result = "Connection réussie";
                     $this->idUser = $result[0]['id_user'];
                     $res = TRUE;
                 } else {
-                    $this->error = "isNotPassword";
+                    $this->error = "vous êtes en attente de validation";
                 }
             } else {
-                $this->error = "vous êtes en attente de validation";
+                $this->error = "isNotPassword";
             }
         } else {
             $this->error = "isNotPseudo";
@@ -59,6 +61,10 @@ class Connection {
 
     public function getIdUser() {
         return $this->idUser;
+    }
+
+    public function getUserType() {
+        return $this->userType;
     }
 
 }
