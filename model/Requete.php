@@ -357,5 +357,13 @@ class Requete {
         }
         return $bool;
     }
- 
+ public static function listMessageAndPseudo($id_subject) {
+
+        $sql = "SELECT content , pseudo FROM forum_message INNER JOIN user ON forum_message.id_user = user.id_user where forum_message.id_subject='{$id_subject}'";
+        $result = self::getResults($sql);
+        if (!$result) {
+            $result = NULL;            
+        }
+        return $result;
+    }
 }
