@@ -3,7 +3,6 @@
 
 <?php ob_start(); ?>
 
-<div class="titre" ><h2>Liste des forums</h2></div>
 <?php
 $temp = NULL;
 foreach ($listCategorieSoucategrie as $list) {
@@ -21,11 +20,11 @@ foreach ($listCategorieSoucategrie as $list) {
         </div>
     <?php }
     ?>
-    <div class="elemen" > 
-        <div class="soustitre">   <a href="index.php?idSousCategory=<?= $list['id_sub_category'] ; ?> "> 
-                <?= $list['sub_category_name'] . "<br>" . $list['sub_category_description']; ?>  </a>
+    <div class="corpConten" > 
+        <div class="nomSoucategory">   <a class="nonCategory" href="index.php?idSousCategory=<?= $list['id_sub_category']; ?> "> 
+                <?= $list['sub_category_name']?>  </a>
         </div>
-        <div class="dernierPost"> <a href="#" > dernier poste : </a> </div>
+        <div class="descriptionSoucat"> <a class="descriptionCategory"href="index.php?idSousCategory=<?= $list['id_sub_category']; ?>" ><?= $list['sub_category_description']; ?></a> </div>
     </div>
 <?php }
 ?>

@@ -19,7 +19,7 @@ if ($listsujets && $nomCatego) {
         <?php if (isset($_SESSION['idUser']) && $sujet['id_user'] == $_SESSION['idUser']) { ?>
             <div class="sousCategory"> 
                 <a href="index.php?IdSujet=<?= $sujet['id_subject']; ?>"> modifier  </a>
-                <a href="index.php?IdDeleteSujet=<?= $sujet['id_subject']; ?>"> suprimer  </a> 
+               <!-- <a href="index.php?IdDeleteSujet=<?= $sujet['id_subject']; ?>"> suprimer  </a> -->
             </div>
             <?php
         }
