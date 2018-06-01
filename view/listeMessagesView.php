@@ -4,7 +4,7 @@
 ob_start();
 if ($listeMessages && $nomSujet) {
     ?>
-    <div class="titre" > <h2> <?= $nomSujet[0]['subject_name']; ?> </h2> </div>
+    <div class="titrc" > <h2> <?= $nomSujet[0]['subject_name']; ?> </h2> </div>
     <div class="posts" >
         <?php foreach ($listeMessages as $message) { ?>
         <div class="post" > <p> <?php echo $message['pseudo'].':  '. $message['content']; ?> </p> </div>
@@ -12,7 +12,7 @@ if ($listeMessages && $nomSujet) {
         <?php if (isset($_SESSION['idUser']) && $message['id_user'] == $_SESSION['idUser']) { ?>
             <div class="sousCategory"> 
                 <a href="index.php?IdMessage=<?= $message['id_message']; ?>"> modifier  </a>
-                <a href="index.php?deleteMessage=<?= $message['id_message']; ?>"> suprimer  </a> 
+                <!-- <a href="index.php?deleteMessage=<?= $message['id_message']; ?>"> suprimer  </a> -->
             </div>
         <?php } } ?>
         </div>
