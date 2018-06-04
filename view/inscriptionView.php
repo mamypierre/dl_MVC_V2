@@ -9,7 +9,7 @@
         <input name="pseudo" type="text" placeholder="pseudo"><br>
         <input name="email" type="email" placeholder="email"><br>
         <input name="motdepass1" type="password" placeholder="motdepass"><br>
-        <input name="motdepass2" type="password" placeholder="retape motdepass"><br>
+        <input name="motdepass2" type="password" placeholder="Retapez le mot de passe"><br>
         <button type="submit">inscription</button> <br>
         <?php
         if (isset($error)) {

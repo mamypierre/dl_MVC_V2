@@ -13,6 +13,7 @@ class Inscription {
     private $password;
     private $error;
     private $resultat;
+    private $waiting;
     public $idDlfapa;
     public $idNotDlafpa;
     private $idUser;
@@ -111,6 +112,7 @@ class Inscription {
 
                     if (Requete::inser("user", "password, pseudo, email_inscription, id_information, id_user_type ", "'{$this->password}', '{$this->pseudo}', '{$this->email}', '{$this->idDlfapa}', '{$idType[0]['id_user_type']}'")) {
                         $result = TRUE;
+                        $waiting = FALSE;
                         $this->resultat = "felicitation vous êtes inscrit ";
                     } else {
                         $this->error = Requete::getErreur();
@@ -120,7 +122,7 @@ class Inscription {
                 }
             } else {
                 //insertion dans la liste d'attente               
-                if (Requete::inser("information", "name ,last_name,status", "'{$this->nom}','{$this->prenom}',DEFAULT")) {
+                if (Requete::inser("information", "last_name ,first_name,status", "'{$this->nom}','{$this->prenom}',DEFAULT")) {
                     $this->isNomPrenDLafpa();
                     if ($this->idNotDlafpa) {
                         $idType = Requete::getResultSelect("user_type", "id_user_type", "type=unknown");
@@ -130,6 +132,7 @@ class Inscription {
                                 if ($this->idUser) {
                                     if (Requete::inser("waiting_list", "id_user, approval", "'{$this->idUser}',DEFAULT")) {
                                         $result = TRUE;
+                                        $waiting = TRUE;
                                         $this->resultat = "Vous êtes inscrit sur la liste d'attente ";
                                     } else {
                                         $this->error = Requete::getErreur();
@@ -160,6 +163,10 @@ class Inscription {
 
     public function getResultat() {
         return $this->resultat;
+    }
+
+    public function getWaiting() {
+        return $this->waiting;        
     }
 
 }
