@@ -29,7 +29,7 @@
             
             
             <div class="elcontact">
-                <div class="mail">Contacter <?php print_r($_GET['pseudo']); ?></div><br>
+                <div class="mail">contacter <?php print_r($_GET['pseudo']); ?></div><br>
                 <label for="exp"><b>Expéditeur</b></label><br>
                 <input name="exp" type="text" placeholder="ton nom"><br> 
                 <label for="message"><b>Message</b></label><br>
